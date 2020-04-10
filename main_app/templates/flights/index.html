@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content%}
+{% for flight in flights%}
+<ul class="list-group">
+    <li class="list-group-item">Craft: {{ flight.craft }} | Depart: {{flight.departure_port}} | Arrival: {{flight.arrival_port}} <a href="/flight/{{flight.id}}" class="btn btn-light btn-sm" role="button" aria-disabled="true">Show</a></li>
+</ul>
+{% endfor %}
+
+{% endblock %}
