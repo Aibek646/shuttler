@@ -1,3 +1,14 @@
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
 main {
-  background-color: lightblue;
+  flex: 1 0 auto;
+}
+
+footer {
+  padding-top: 0;
+  text-align: center;
 }
