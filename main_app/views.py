@@ -1,10 +1,9 @@
 from django.shortcuts import render, redirect
 from .models import Flight
-
-
 def home(request):
-    return render(request, 'index.html', {'page_title': 'Flights'})
+    flights = Flight.objects.all()
 
+    return render(request, 'flights/index.html', {'flights': flights})
 
 def flight(request, id):
     try:
