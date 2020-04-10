@@ -1,5 +1,7 @@
 from django.shortcuts import render
+from .models import Flight
 
 # Create your views here.
 def home(request):
-    return render(request, 'base.html')
+    flights = Flight.objects.all()
+    return render(request, 'flights/index.html', {'flights': flights})
