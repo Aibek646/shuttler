@@ -1,0 +1,52 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!-- Google Fonts: Gotu -->
+  <link href="https://fonts.googleapis.com/css?family=Gotu|Open+Sans&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+  <!-- Local CSS -->
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+
+  <!-- Font Awesome Kit -->
+  <script defer src="https://kit.fontawesome.com/26c4ac9e38.js" crossorigin="anonymous"></script>
+
+  <!-- Bootstrap Scripts -->
+  <script defer src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script defer src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+  <title>Shuttler - {{page_title}}</title>
+</head>
+
+<body>
+  <header class="container-lg">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="navbar-brand">
+        Shuttler - {{page_title}}
+      </div>
+    </nav>
+  </header>
+  <main class="container-lg">
+    {% block content %}
+    {% endblock content%}
+  </main>
+  <footer class="container-lg">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-bottom">
+      <h6 class="ml-auto">
+        Shuttler &copy; 2020 Seanny Drakon Phoenix, Aibek
+      </h6>
+    </nav>
+  </footer>
+
+</body>
+
+</html>
