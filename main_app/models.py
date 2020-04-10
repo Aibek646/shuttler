@@ -3,10 +3,12 @@ from django.contrib.auth.models import User
 
 
 class Craft(models.Model):
-    name = models.CharField(max_length=20)
+    model = models.CharField(max_length=20)
+    serialNumber = models.CharField(max_length=10) 
+    numberOfSeats = models.IntegerField(default=10)
 
     def __str__(self):
-        return self.name
+        return self.model
 
 
 class Port(models.Model):
@@ -47,4 +49,8 @@ class Person(models.Model):
 
 
 class Manifest(models.Model):
-    pass
+    flight = models.ForeignKey(Flight, on_delete=models.CASCADE)
+    person = models.ForeignKey(Person, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"flight {self.flight} and person {self.person}"
