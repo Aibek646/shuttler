@@ -3,15 +3,18 @@ from django.contrib.auth.models import User
 
 
 class Craft(models.Model):
-    pass
+    name = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.name
 
 
-# Seanny
 class Port(models.Model):
     name = models.CharField(max_length=30)
     abbr = models.CharField(max_length=4)
 
-# Seanny
+    def __str__(self):
+        return f'{self.name} ({self.abbr})'
 
 
 class Flight(models.Model):
@@ -23,7 +26,8 @@ class Flight(models.Model):
     arrival_port = models.ForeignKey(
         Port, on_delete=models.PROTECT, related_name='arrival')
 
-# Seanny
+    def __str__(self):
+        return f'{self.departure_port.abbr} to {self.arrival_port.abbr} at {self.departure_time.strftime("%Y-%m-%d %H%Mhrs")}'
 
 
 class Person(models.Model):
@@ -37,6 +41,9 @@ class Person(models.Model):
         ('CR', 'Crew'),
         ('PA', 'Passenger')
     ))
+
+    def __str__(self):
+        return f'{self.user.first_name} {self.user.last_name}'
 
 
 class Manifest(models.Model):
