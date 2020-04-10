@@ -1,7 +1,41 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Flight {{flight_id}}</h1>
+<div class="jumbotron">
+  <div class="row">
+    <div class="col-sm">
+      <h2>Flight {{flight_info.id}}</h2>
+    </div>
+  </div>
+  <table class="table table-borderless">
+    <tr>
+      <th>Departure</td>
+      <td>{{flight_info.departure_port.abbr}}</td>
+      <td>{{dep_date}}</td>
+      <td>{{dep_time}}</td>
+    </tr>
+    <tr>
+      <th>Arrival</td>
+      <td>{{flight_info.arrival_port.abbr}}</td>
+      <td>{{arr_date}}</td>
+      <td>{{arr_time}}</td>
+    </tr>
+    <tr>
+      <th>Craft</td>
+      <td>{{flight_info.craft.model}}</td>
+      <td>{{flight_info.craft.numberOfSeats}} seats</td>
+    </tr>
+  </table>
+  <p>
+    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+      Book Flight
+    </button>
+  </p>
+  <div class="collapse" id="collapseExample">
+    <div class="card card-body">
+      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+    </div>
+  </div>
+</div>
 
-{{flight_info}}
 {% endblock content %}
