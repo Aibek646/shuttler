@@ -1,16 +1,19 @@
 from django.shortcuts import render, redirect
 from .models import Flight
+
+
 def home(request):
     flights = Flight.objects.all()
 
     return render(request, 'flights/index.html', {'flights': flights})
+
 
 def flight(request, id):
     try:
         flight = Flight.objects.get(id=id)
     except:
         return redirect('/')
-    return render(request, 'flight.html', {
+    return render(request, 'flights/show.html', {
         'page_title': f'Flight {id}',
         'flight_id': id,
         'dep_date': flight.departure_time.strftime("%A, %-m %B, %Y"),
@@ -19,3 +22,15 @@ def flight(request, id):
         'arr_time': flight.arrival_time.strftime("%H%Mhrs"),
         'flight_info': flight}
     )
+
+
+def make_booking(request):
+    pass
+
+
+def show_booking(request):
+    pass
+
+
+def about(request):
+    return render(request, 'about.html')
