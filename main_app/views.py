@@ -52,8 +52,9 @@ def make_booking(request):
     return redirect('/flight/{}'.format(info['flight_id']))
 
 
-def show_booking(request):
-    pass
+def show_booking(request, id):
+    manifest1 = Manifest.objects.all()
+    return render(request, 'flights/bookShow.html', {'manifest1': manifest1} )
 
 
 def about(request):
