@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Flight
+from .models import Flight, Person
 
 
 def home(request):
@@ -33,4 +33,8 @@ def show_booking(request):
 
 
 def about(request):
-    return render(request, 'about.html')
+    admins = Person.objects.filter(role='AD')
+    return render(request, 'about.html', {
+        'page_title': about,
+        'admins': admins,
+    })
