@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 class Craft(models.Model):
     model = models.CharField(max_length=20)
-    serialNumber = models.CharField(max_length=10) 
+    serialNumber = models.CharField(max_length=10)
     numberOfSeats = models.IntegerField(default=10)
 
     def __str__(self):
@@ -44,8 +44,14 @@ class Person(models.Model):
     role = models.CharField(max_length=2, choices=(
         ('ST', 'Staff'),
         ('CR', 'Crew'),
-        ('PA', 'Passenger')
+        ('PA', 'Passenger'),
+        ('AD', 'Admin')
     ))
+    pic = models.CharField(max_length=225, blank=True)
+    bio = models.TextField(blank=True)
+    linkedin_username = models.CharField(max_length=225, blank=True)
+    github_uername = models.CharField(max_length=225, blank=True)
+    twitter_username = models.CharField(max_length=225, blank=True)
 
     def __str__(self):
         return f'{self.user.first_name} {self.user.last_name}'
