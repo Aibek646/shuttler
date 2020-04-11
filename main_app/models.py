@@ -33,14 +33,7 @@ class Flight(models.Model):
 
 
 class Person(models.Model):
-    class Role(models.IntegerChoices):
-        STAFF = 1
-        CREW = 2
-        PASSENGER = 3
-    user = models.ForeignKey(User, blank=True, on_delete=models.CASCADE)
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
-
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     role = models.CharField(max_length=2, choices=(
         ('ST', 'Staff'),
         ('CR', 'Crew'),
