@@ -9,19 +9,19 @@
   </div>
   <table class="table table-borderless">
     <tr>
-      <th>Departure</td>
+      <th>Departure</th>
       <td>{{flight_info.departure_port.abbr}}</td>
       <td>{{dep_date}}</td>
       <td>{{dep_time}}</td>
     </tr>
     <tr>
-      <th>Arrival</td>
+      <th>Arrival</th>
       <td>{{flight_info.arrival_port.abbr}}</td>
       <td>{{arr_date}}</td>
       <td>{{arr_time}}</td>
     </tr>
     <tr>
-      <th>Craft</td>
+      <th>Craft</th>
       <td>{{flight_info.craft.model}}</td>
       <td>{{flight_info.craft.numberOfSeats}} seats</td>
     </tr>
@@ -32,19 +32,21 @@
     </button>
   </p>
   <div class="collapse" id="collapseExample">
-    <form action="" method="POST">
+    <form action="/booking/" method="POST">
+      {% csrf_token %}
+      <input type="hidden" name="flight_id" value="{{flight_info.id}}">
       <div class="row">
         <div class="col">
           <label for="exampleSelect1">First Name</label>
-          <input type="text" class="form-control" placeholder="">
+          <input type="text" class="form-control" name="first_name" placeholder="">
         </div>
         <div class="col">
           <label for="exampleSelect1">Last Name</label>
-          <input type="text" class="form-control" placeholder="">
+          <input type="text" class="form-control" name="last_name" placeholder="">
         </div>
-          <div class="col">
+        <div class="col">
           <label for="exampleSelect1">Seats</label>
-          <select class="form-control" id="exampleSelect1">
+          <select class="form-control" id="exampleSelect1" name="seats">
             <option>1</option>
             <option>2</option>
             <option>3</option>
@@ -56,12 +58,11 @@
             <option>9</option>
             <option>10</option>
           </select>
-          </div>
-
+        </div>
       </div>
       <br>
       <button type="submit" class="btn btn-primary btn-sm">Submit</button>
-      
+
     </form>
   </div>
 </div>

@@ -1,10 +1,12 @@
+import random
 from django.shortcuts import render, redirect
-from .models import Flight, Person
+from .models import Flight, Person, Manifest
+from django.contrib.auth.models import User, UserManager
+from django.contrib.auth import authenticate, login
 
 
 def home(request):
     flights = Flight.objects.all()
-
     return render(request, 'flights/index.html', {'flights': flights})
 
 
@@ -25,7 +27,29 @@ def flight(request, id):
 
 
 def make_booking(request):
-    pass
+    info = request.POST
+    users = User.objects.filter(
+        first_name=info['first_name'],
+        last_name=info['last_name'],
+    )
+    if len(users) > 0:
+        user = users[0]
+        server_log(user)
+        login(request, user)
+
+    else:
+        user = User.objects.create_user(
+            str(random.randint(100000, 999999)),
+            first_name=info['first_name'],
+            last_name=info['last_name'],
+        )
+        Person.objects.create(user=user, role='PA')
+    flight = Flight.objects.get(id=info['flight_id'])
+    server_log(flight)
+    for i in range(0, int(info['seats'])):
+        manifest = Manifest(person=user.person, flight=flight)
+        manifest.save()
+    return redirect('/flight/{}'.format(info['flight_id']))
 
 
 def show_booking(request):
@@ -38,3 +62,9 @@ def about(request):
         'page_title': about,
         'admins': admins,
     })
+
+
+def server_log(message):
+    print('----------')
+    print(message)
+    print('----------')
