@@ -51,6 +51,7 @@ class Person(models.Model):
 
 
 class Manifest(models.Model):
+    user = models.ForeignKey(User, on_delete=models.PROTECT)
     flight = models.ForeignKey(Flight, on_delete=models.CASCADE)
     person = models.ForeignKey(Person, on_delete=models.CASCADE)
 

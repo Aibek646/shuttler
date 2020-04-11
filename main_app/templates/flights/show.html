@@ -36,14 +36,15 @@
     <form action="/booking/" method="POST">
       {% csrf_token %}
       <input type="hidden" name="flight_id" value="{{flight_info.id}}">
+      <input type="hidden" name="username" value="{{username}}">
       <div class="row">
         <div class="col">
           <label for="exampleSelect1">First Name</label>
-          <input type="text" class="form-control" name="first_name" placeholder="">
+          <input type="text" class="form-control" name="first_name" value="{{first_name}}">
         </div>
         <div class="col">
           <label for="exampleSelect1">Last Name</label>
-          <input type="text" class="form-control" name="last_name" placeholder="">
+          <input type="text" class="form-control" name="last_name" value="{{last_name}}">
         </div>
         <div class="col">
           <label for="exampleSelect1">Seats</label>
