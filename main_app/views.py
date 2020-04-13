@@ -67,7 +67,8 @@ def make_booking(request):
 
 
 def show_booking(request, id):
-    manifest1 = Manifest.objects.all()
+    manifest1 = Manifest.objects.filter(flight__id = id, user = request.user)
+    print(manifest1)
     return render(request, 'flights/bookShow.html', {'manifest1': manifest1} )
 
 
