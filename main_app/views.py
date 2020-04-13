@@ -1,8 +1,10 @@
 import random
+import json
 from django.shortcuts import render, redirect
-from .models import Flight, Person, Manifest
+from django.http import JsonResponse
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User, UserManager
-from django.contrib.auth import authenticate, login
+from .models import Flight, Person, Manifest
 
 
 def home(request):
@@ -42,26 +44,12 @@ def flight(request, id):
 
 def make_booking(request):
     info = request.POST
-    users = User.objects.filter(
-        first_name=info['first_name'],
-        last_name=info['last_name'],
-    )
-    if len(users) > 0:
-        user = users[0]
-        server_log(user)
-        login(request, user)
-
-    else:
-        user = User.objects.create_user(
-            str(random.randint(100000, 999999)),
-            first_name=info['first_name'],
-            last_name=info['last_name'],
-        )
-        Person.objects.create(user=user, role='PA')
+    server_log(info)
+    user = request.user
     flight = Flight.objects.get(id=info['flight_id'])
     server_log(flight)
     for i in range(0, int(info['seats'])):
-        manifest = Manifest(person=user.person, flight=flight)
+        manifest = Manifest(user=user, person=user.person, flight=flight)
         manifest.save()
     return redirect('/flight/{}'.format(info['flight_id']))
 
@@ -73,14 +61,65 @@ def show_booking(request):
 def account(request):
     if request.user.is_authenticated:
         return render(request, 'account.html', {
-            'page_title': 'Log In',
-            'login_form': True,
+            'page_title': 'Account',
         })
     else:
         return render(request, 'account.html', {
-            'page_title': 'Account',
-            'login_form': False,
+            'page_title': 'Log In',
         })
+
+
+def login_user(request):
+    if request.method != "POST":
+        return JsonResponse({
+            'login': False,
+            'message': 'Must use the POST method',
+        })
+    else:
+        login_data = json.loads(request.body)
+        username = login_data['username']
+        password = login_data['password']
+        user = authenticate(
+            request,
+            username=username,
+            password=password,
+        )
+        if user is not None:
+            login(request, user)
+            return JsonResponse({
+                'login': True,
+            })
+        else:
+            response = {
+                'login': False,
+                'message': 'Invalid credentials',
+            }
+            return JsonResponse(response)
+
+
+def logout_user(request):
+    if request.method != "DELETE":
+        return JsonResponse({
+            'logout': False,
+            'message': 'Must use the POST method',
+        })
+    else:
+        logout(request)
+        return JsonResponse({
+            'logout': True
+        })
+
+
+def validate(request):
+    user = request.user
+    if user.is_authenticated:
+        return JsonResponse({
+            'username': user.username,
+            'firstName': user.first_name,
+            'lastName': user.last_name,
+        })
+    else:
+        return JsonResponse(None, safe=False)
 
 
 def about(request):
@@ -95,3 +134,7 @@ def server_log(message):
     print('----------')
     print(message)
     print('----------')
+
+
+def test(request):
+    return
