@@ -1,4 +1,7 @@
 const csrfToken = Cookies.get('csrftoken');
+const getParams = new URLSearchParams(window.location.search);
+const redirect = getParams.get('redirect');
+console.log(redirect);
 
 const form = {
   username: document.querySelector('#username'),
@@ -69,6 +72,10 @@ async function login(event) {
       let login = await response.json();
       console.log(login.login);
       if (login.login === true) {
+        if (redirect) {
+          window.location.href = redirect;
+          return;
+        }
         window.location.href = `/account/`;
       }
       else {

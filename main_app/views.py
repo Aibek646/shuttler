@@ -17,13 +17,9 @@ def home(request):
 
 def flight(request, id):
     if request.user.is_authenticated:
-        first_name = request.user.first_name
-        last_name = request.user.last_name
-        username = request.user.username
+        persons = Person.objects.filter(user=request.user.id)
     else:
-        first_name = ''
-        last_name = ''
-
+        persons = []
     try:
         flight = Flight.objects.get(id=id)
     except:
@@ -31,27 +27,44 @@ def flight(request, id):
 
     return render(request, 'flights/show.html', {
         'page_title': f'Flight {id}',
+        'scripts': ['flight'],
         'flight_id': id,
         'dep_date': flight.departure_time.strftime("%A, %-m %B, %Y"),
         'dep_time': flight.departure_time.strftime("%H%Mhrs"),
         'arr_date': flight.arrival_time.strftime("%A, %-m %B, %Y"),
         'arr_time': flight.arrival_time.strftime("%H%Mhrs"),
         'flight_info': flight,
-        'first_name': first_name,
-        'last_name': last_name}
-    )
+        'persons': persons,
+    })
+
+
+def seats(request, id):
+    flight = Flight.objects.get(id=id)
+    manifest = Manifest.objects.filter(flight=id)
+    total = flight.craft.seats - len(manifest)
+
+    passengers = manifest.filter(user=request.user.id)
+    passengers = passengers.values()
+    passenger_dict = {}
+    for passenger in passengers:
+        passenger_dict[passenger['id']] = passenger
+
+    return JsonResponse({
+        'total': total,
+        'remaining': flight.craft.seats,
+        'passengers': passenger_dict,
+    })
 
 
 def make_booking(request):
     info = request.POST
-    server_log(info)
     user = request.user
     flight = Flight.objects.get(id=info['flight_id'])
-    server_log(flight)
-    for i in range(0, int(info['seats'])):
-        manifest = Manifest(user=user, person=user.person, flight=flight)
-        manifest.save()
-    return redirect('/flight/{}'.format(info['flight_id']))
+    total_seats = flight.seats
+
+    # manifest = Manifest(user=user, person=user.person, flight=flight)
+    # manifest.save()
+    return redirect('/flight/{}/'.format(info['flight_id']))
 
 
 def show_booking(request):
@@ -59,14 +72,16 @@ def show_booking(request):
 
 
 def account(request):
+    scripts = ['account']
     if request.user.is_authenticated:
-        return render(request, 'account.html', {
-            'page_title': 'Account',
-        })
+        page_title = 'Account'
     else:
-        return render(request, 'account.html', {
-            'page_title': 'Log In',
-        })
+        page_title = 'Log In'
+
+    return render(request, 'account.html', {
+        'page_title': page_title,
+        'scripts': scripts,
+    })
 
 
 def login_user(request):
@@ -101,7 +116,7 @@ def logout_user(request):
     if request.method != "DELETE":
         return JsonResponse({
             'logout': False,
-            'message': 'Must use the POST method',
+            'message': 'Must use the DELETE method',
         })
     else:
         logout(request)
@@ -128,6 +143,20 @@ def about(request):
         'page_title': 'About',
         'admins': admins,
     })
+
+
+def persons(request):
+    if request.user.is_authenticated:
+        persons = Person.objects.filter(user=request.user.id)
+    else:
+        persons = []
+
+    persons = persons.values()
+    person_dict = {}
+    for person in persons:
+        person_dict[person['id']] = person
+
+    return JsonResponse(person_dict)
 
 
 def server_log(message):
