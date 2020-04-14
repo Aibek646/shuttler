@@ -16,4 +16,20 @@ footer {
 
 serif {
   font-family: 'Noto Serif', serif;
+<<<<<<< HEAD
+=======
+}
+
+.profile-pic {
+  width: 15rem;
+  height 15rem;
+}
+
+.card-text {
+  font-family: 'Noto Serif', serif;
+}
+
+.blue {
+  background-color: blue;
+>>>>>>> e7648dceaf3a6bff1c09f8ebd40a529a4d2eb20d
 }

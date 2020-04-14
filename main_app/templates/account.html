@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if page_title == 'Log In' %}
+<div class="row">
+  <div class="col-md-4 mx-auto">
+    <div class="card mt-2 h-100 border-0 shadow">
+      <div class="card-body">
+        <form>
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" class="form-control" name="username" id="username" aria-describedby="userWarn">
+            <small id="userWarn" class="d-block text-danger">&nbsp;</small>
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" name="password" id="password" aria-describedby="passWarn">
+            <small id="passWarn" class="d-block text-danger">&nbsp;</small>
+          </div>
+          <button type="submit" class="btn btn-primary" id="login" aria-describedby="loginFail">Log In</button>
+          <small id="loginFail" class="d-block text-danger">&nbsp;</small>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% else %}
+<div class="row">
+  <div class="col-md-6 mx-auto">
+    <div class="card-body mx-auto mt-2 border-0 shadow" id="account-info">
+      <h3 id="full-name"></h3>
+      <table class="table table-striped mt-3" id="person-list">
+        <thead>
+          <th scope="col">First Name</th>
+          <th scope="col">Last Name</th>
+          <th style="width: 7em;"></th>
+        </thead>
+        <tbody>
+          <!-- Build via Script -->
+          <tr id="add-row">
+            <td></td>
+            <td></td>
+            <td><i class="btn btn-small btn-outline-none fas fa-plus" id="add-person"></i></td>
+          </tr>
+        </tbody>
+      </table>
+      <button type="button" class="btn btn-primary" id="logout">Log Out</button>
+    </div>
+  </div>
+</div>
+{% endif %}
+{% endblock content %}
