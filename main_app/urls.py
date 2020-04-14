@@ -13,4 +13,5 @@ urlpatterns = [
     path('validate/', views.validate, name='validate'),
     path('about/', views.about, name='about'),
     path('persons/', views.persons, name='persons'),
+    path('persons/<int:id>', views.persons, name='modify_person'),
 ]

@@ -71,7 +71,8 @@ def make_booking(request):
             seat = Manifest(
                 user=user,
                 person=person,
-                flight=flight)
+                flight=flight
+            )
             seat.save()
 
     return redirect('/flight/{}'.format(info['flight_id']))
@@ -157,17 +158,51 @@ def about(request):
     })
 
 
-def persons(request):
+def persons(request, **kwargs):
     if request.user.is_authenticated:
-        persons = Person.objects.filter(user=request.user.id)
-        persons = persons.values()
-        person_dict = {}
-        for person in persons:
-            person_dict[person['id']] = person
-    else:
-        persons = []
+        if request.method == "GET":
+            person_dict = {}
+            persons = Person.objects.filter(user=request.user.id)
+            persons = persons.values()
+            for person in persons:
+                person_dict[person['id']] = person
+            return JsonResponse(person_dict)
 
-    return JsonResponse(person_dict)
+        elif request.method == "POST":
+            server_log(request.content_params)
+            data = json.loads(request.body.decode("utf-8"))
+            server_log(data)
+            if data['action'] == 'create':
+                newPerson = Person(
+                    request.user,
+                    data['first_name'],
+                    data['last_name'],
+                    'PA'
+                )
+                newPerson.save()
+                return JsonResponse({'created': {
+                    'id': newPerson.id,
+                    'first_name': newPerson.first_name,
+                    'last_name': newPerson.last_name,
+                }})
+            elif data['action'] == 'update':
+                server_log(request.body)
+                data = request.PUT
+                updatePerson = Person.objects.get(id=data['id'])
+                updatePerson.first_name = data['first_name']
+                updatePerson.last_name = data['last_name']
+                return JsonResponse({'created': {
+                    'id': updatePerson.id,
+                    'first_name': updatePerson.first_name,
+                    'last_name': updatePerson.last_name,
+                }})
+
+        elif request.method == "DELETE":
+            deletePerson = Person.objects.get(id=kwargs['id'])
+            deletePerson.delete()
+            return JsonResponse({'deleted': deletePerson.first_name})
+    else:
+        return JsonResponse({})
 
 
 def server_log(message):
