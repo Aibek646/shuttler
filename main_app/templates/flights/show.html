@@ -9,33 +9,53 @@
   </div>
   <table class="table table-borderless">
     <tr>
-      <th>Departure</td>
+      <th>Departure</th>
       <td>{{flight_info.departure_port.abbr}}</td>
       <td>{{dep_date}}</td>
       <td>{{dep_time}}</td>
     </tr>
     <tr>
-      <th>Arrival</td>
+      <th>Arrival</th>
       <td>{{flight_info.arrival_port.abbr}}</td>
       <td>{{arr_date}}</td>
       <td>{{arr_time}}</td>
     </tr>
     <tr>
-      <th>Craft</td>
+      <th>Craft</th>
       <td>{{flight_info.craft.model}}</td>
-      <td>{{flight_info.craft.numberOfSeats}} seats</td>
+      <td id="seats-total"><i class="fas fa-spinner fa-pulse"></i></td>
+      <td id="seats-remain"><i class="fas fa-spinner fa-pulse"></i></td>
     </tr>
   </table>
   <p>
-    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+    <button class="btn btn-primary d-none" id="book-flight" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
       Book Flight
+    </button>
+    <button class="btn btn-primary d-none" id="log-in" type="button">
+      Log In to Book Flight
     </button>
   </p>
   <div class="collapse" id="collapseExample">
-    <div class="card card-body">
-      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
-    </div>
+    <form action="/booking/" method="POST">
+      {% csrf_token %}
+      <input type="hidden" name="flight_id" value="{{flight_info.id}}">
+      <div class="row">
+        <div class="col-md-6">
+          <table class="table table-striped">
+            <tbody id="passengers">
+              <thead>
+                <th scope="col" colspan="2">Add Passengers</th>
+                <th style="width: 1em;"></th>
+              </thead>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="row">
+
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
   </div>
 </div>
-
 {% endblock content %}
