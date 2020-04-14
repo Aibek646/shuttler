@@ -4,8 +4,8 @@ from django.contrib.auth.models import User
 
 class Craft(models.Model):
     model = models.CharField(max_length=20)
-    serial_number = models.CharField(max_length=10)
-    seats = models.IntegerField(default=10)
+    serialNumber = models.CharField(max_length=10) 
+    numberOfSeats = models.IntegerField(default=10)
 
     def __str__(self):
         return self.model
@@ -33,27 +33,22 @@ class Flight(models.Model):
 
 
 class Person(models.Model):
-    user = models.ForeignKey(User, on_delete=models.PROTECT)
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
+    class Role(models.IntegerChoices):
+        STAFF = 1
+        CREW = 2
+        PASSENGER = 3
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     role = models.CharField(max_length=2, choices=(
         ('ST', 'Staff'),
         ('CR', 'Crew'),
-        ('PA', 'Passenger'),
-        ('AD', 'Admin')
+        ('PA', 'Passenger')
     ))
-    pic = models.CharField(max_length=225, blank=True)
-    bio = models.TextField(blank=True)
-    linkedin_username = models.CharField(max_length=225, blank=True)
-    github_uername = models.CharField(max_length=225, blank=True)
-    twitter_username = models.CharField(max_length=225, blank=True)
 
     def __str__(self):
-        return f'{self.first_name} {self.last_name} --> {self.user}'
+        return f'{self.user.first_name} {self.user.last_name}'
 
 
 class Manifest(models.Model):
-    user = models.ForeignKey(User, on_delete=models.PROTECT)
     flight = models.ForeignKey(Flight, on_delete=models.CASCADE)
     person = models.ForeignKey(Person, on_delete=models.CASCADE)
 
