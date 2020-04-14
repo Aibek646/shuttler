@@ -1,39 +1,5 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container">
-  <div class="row">
-    {% for admin in admins %}
-    <div class="col-sm">
-      <div class="card mx-auto mt-2 h-100 border-0 shadow" style="width: 25rem;">
-        <img src="{{admin.pic}}" class="card-img-top rounded-circle profile-pic mx-auto my-3 shadow" alt="{{admin}}">
-        <div class="card-body">
-          <h4 class="card-title">{{admin}}</h4>
-          <p class="card-text">
-            {{admin.bio}}
-          </p>
-        </div>
-        <div class="card-footer">
-          <div class="row">
-            <p class="mx-auto mb-1">Find {{admin.user.first_name}} online:</p>
-          </div>
-          <div class="row mx-auto">
-            <p class="mx-auto mb-0">
-              {% if admin.twitter_username %}
-              <a class="fab fa-twitter-square" href="http://www.twitter.com/{{admin.twitter_username}}" target="_blank" role="button"></a>
-              {% endif %}
-              {% if admin.github_uername %}
-              <a class="fab fa-github-square" href="https://github.com/{{admin.github_uername}}" target="_blank" role="button"></a>
-              {% endif %}
-              {% if admin.linkedin_username %}
-              <a class="fab fa-linkedin" href="https://www.linkedin.com/in/{{admin.linkedin_username}}/" target="_blank" role="button"></a>
-              {% endif %}
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-    {% endfor %}
-  </div>
-</div>
+<h1>About</h1>
 {% endblock content %}
