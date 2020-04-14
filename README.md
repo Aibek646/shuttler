@@ -1,2 +1,2 @@
 # shuttler
-Installation
+Instalation
