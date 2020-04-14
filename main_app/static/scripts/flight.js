@@ -55,7 +55,7 @@ async function getPersons() {
     elems.passengers.insertAdjacentHTML('beforeend', `
       <tr id="row-${row}">
         <td colspan="2" class="name">
-          <select id="seat-${row}" class="form-control">
+          <select id="seat-${row}" class="form-control" name="seat-${row}">
             <option selected value="none">---------</option>
           </select>
         </td>
@@ -105,7 +105,7 @@ function addPassenger() {
   newRow.insertAdjacentHTML('beforebegin', `
     <tr id="row-${row}">
       <td colspan="2" class="name">
-        <select id="seat-${row}" class="form-control">
+        <select id="seat-${row}" class="form-control" name="seat-${row}">
           <option selected value="none">---------</option>
         </select>
       </td>

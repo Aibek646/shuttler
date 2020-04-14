@@ -60,11 +60,21 @@ def make_booking(request):
     info = request.POST
     user = request.user
     flight = Flight.objects.get(id=info['flight_id'])
-    total_seats = flight.seats
+    # total_seats = flight.craft.seats
+    manifest = Manifest.objects.filter(flight_id=info['flight_id'])
+    for seat in manifest:
+        seat.delete()
 
-    # manifest = Manifest(user=user, person=user.person, flight=flight)
-    # manifest.save()
-    return redirect('/flight/{}/'.format(info['flight_id']))
+    for item in info:
+        if item[0:4] == "seat":
+            person = Person.objects.get(id=info[item])
+            seat = Manifest(
+                user=user,
+                person=person,
+                flight=flight)
+            seat.save()
+
+    return redirect('/flight/{}'.format(info['flight_id']))
 
 
 def show_booking(request):

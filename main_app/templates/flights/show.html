@@ -39,7 +39,6 @@
     <form action="/booking/" method="POST">
       {% csrf_token %}
       <input type="hidden" name="flight_id" value="{{flight_info.id}}">
-      <input type="hidden" id="username" name="username" value="{{username}}">
       <div class="row">
         <div class="col-md-6">
           <table class="table table-striped">
