@@ -23,49 +23,39 @@
     <tr>
       <th>Craft</th>
       <td>{{flight_info.craft.model}}</td>
-      <td>{{flight_info.craft.numberOfSeats}} seats</td>
+      <td id="seats-total"><i class="fas fa-spinner fa-pulse"></i></td>
+      <td id="seats-remain"><i class="fas fa-spinner fa-pulse"></i></td>
     </tr>
   </table>
   <p>
-    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+    <button class="btn btn-primary d-none" id="book-flight" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
       Book Flight
+    </button>
+    <button class="btn btn-primary d-none" id="log-in" type="button">
+      Log In to Book Flight
     </button>
   </p>
   <div class="collapse" id="collapseExample">
     <form action="/booking/" method="POST">
       {% csrf_token %}
       <input type="hidden" name="flight_id" value="{{flight_info.id}}">
-      <input type="hidden" name="username" value="{{username}}">
       <div class="row">
-        <div class="col">
-          <label for="exampleSelect1">First Name</label>
-          <input type="text" class="form-control" name="first_name" value="{{first_name}}">
-        </div>
-        <div class="col">
-          <label for="exampleSelect1">Last Name</label>
-          <input type="text" class="form-control" name="last_name" value="{{last_name}}">
-        </div>
-        <div class="col">
-          <label for="exampleSelect1">Seats</label>
-          <select class="form-control" id="exampleSelect1" name="seats">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-            <option>6</option>
-            <option>7</option>
-            <option>8</option>
-            <option>9</option>
-            <option>10</option>
-          </select>
+        <div class="col-md-6">
+          <table class="table table-striped">
+            <tbody id="passengers">
+              <thead>
+                <th scope="col" colspan="2">Add Passengers</th>
+                <th style="width: 1em;"></th>
+              </thead>
+            </tbody>
+          </table>
         </div>
       </div>
-      <br>
-      <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+      <div class="row">
 
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
     </form>
   </div>
 </div>
-
 {% endblock content %}
