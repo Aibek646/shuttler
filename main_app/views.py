@@ -20,14 +20,6 @@ def flight(request, id):
         'dep_time': flight.departure_time.strftime("%H%Mhrs"),
         'arr_date': flight.arrival_time.strftime("%A, %-m %B, %Y"),
         'arr_time': flight.arrival_time.strftime("%H%Mhrs"),
-<<<<<<< HEAD
-        'flight_info': flight}
-    )
-
-
-def make_booking(request):
-    pass
-=======
         'flight_info': flight,
         'persons': persons,
     })
@@ -71,7 +63,6 @@ def make_booking(request):
             seat.save()
 
     return redirect('/flight/{}'.format(info['flight_id']))
->>>>>>> e7648dceaf3a6bff1c09f8ebd40a529a4d2eb20d
 
 
 def show_booking(request, id):
@@ -81,9 +72,6 @@ def show_booking(request, id):
 
 
 def about(request):
-<<<<<<< HEAD
-    return render(request, 'about.html')
-=======
     admins = Person.objects.filter(role='AD')
     return render(request, 'about.html', {
         'page_title': 'About',
@@ -146,4 +134,3 @@ def server_log(message):
 
 def test(request):
     return
->>>>>>> e7648dceaf3a6bff1c09f8ebd40a529a4d2eb20d
