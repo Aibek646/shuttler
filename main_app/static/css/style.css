@@ -26,3 +26,7 @@ serif {
 .card-text {
   font-family: 'Noto Serif', serif;
 }
+
+.blue {
+  background-color: blue;
+}

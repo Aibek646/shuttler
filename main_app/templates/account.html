@@ -4,7 +4,7 @@
 {% if page_title == 'Log In' %}
 <div class="row">
   <div class="col-md-4 mx-auto">
-    <div class="card mx-auto mt-2 h-100 border-0 shadow" style="width: 25rem;">
+    <div class="card mt-2 h-100 border-0 shadow">
       <div class="card-body">
         <form>
           {% csrf_token %}
@@ -28,7 +28,8 @@
 {% else %}
 <div class="row">
   <div class="col-md-6 mx-auto">
-    <div class="card-body">
+    <div class="card-body mx-auto mt-2 border-0 shadow" id="account-info">
+      <h3 id="full-name"></h3>
       <button type="button" class="btn btn-primary" id="logout">Log Out</button>
     </div>
   </div>
