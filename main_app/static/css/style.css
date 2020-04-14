@@ -3,6 +3,23 @@ body {
   flex-direction: column;
   min-height: 100vh;
   font-family: 'Noto Sans', sans-serif;
+  background-color: #afd6e9;
+}
+
+header h5 {
+  color: #cedbd1;
+}
+
+header a {
+  color: #cedbd1;
+}
+
+header a:hover {
+  color: #cedbd1;
+}
+
+#header-pic {
+  position: sticky;
 }
 
 main {
@@ -12,6 +29,10 @@ main {
 footer {
   padding-top: 0;
   text-align: center;
+}
+
+.card-body {
+  background-color: #cedbd1;
 }
 
 serif {

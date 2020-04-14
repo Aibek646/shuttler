@@ -1,10 +1,33 @@
 {% extends 'base.html' %}
 
 {% block content%}
-{% for flight in flights%}
-<ul class="list-group">
-    <li class="list-group-item">Craft: {{ flight.craft }} | Depart: {{flight.departure_port}} | Arrival: {{flight.arrival_port}} <a href="/flight/{{flight.id}}" class="btn btn-light btn-sm" role="button" aria-disabled="true">Show</a></li>
-</ul>
-{% endfor %}
+<div class="card">
+  <div class="card-body">
+    <h1>Welcome to Shuttler! Fly with us!</h1>
+    <img src="https://ga-shuttler.s3-us-west-1.amazonaws.com/777.jpg" alt="" class="mx-0 my-3" id="header-pic">
+    <h3>Current available flights</h3>
+    <table class="table table-striped">
+      <thead>
+        {# <th scope="col">Date</th> #}
+        <th scope="col">Departure Port</th>
+        <th scope="col">Arrival Port</th>
+        <th scope="col">Craft</th>
+        <th></th>
+      </thead>
+      <tbody>
+        {% for flight in flights %}
+        <tr>
+          {# <td></td> #}
+          <td>{{flight.departure_port}}</td>
+          <td>{{flight.arrival_port}}</td>
+          <td>{{ flight.craft }}</td>
+          <td><a href="/flight/{{flight.id}}" class="btn btn-light btn-sm" role="button" aria-disabled="true">Details</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
 
 {% endblock %}

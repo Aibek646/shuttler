@@ -78,10 +78,6 @@ def make_booking(request):
     return redirect('/flight/{}'.format(info['flight_id']))
 
 
-def show_booking(request):
-    pass
-
-
 def account(request):
     scripts = ['account']
     if request.user.is_authenticated:
