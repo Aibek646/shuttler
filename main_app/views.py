@@ -1,33 +1,20 @@
-import random
-import json
 from django.shortcuts import render, redirect
-from django.http import JsonResponse
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User, UserManager
-from .models import Flight, Person, Manifest
+from .models import Flight
 
 
 def home(request):
     flights = Flight.objects.all()
-    return render(request, 'flights/index.html', {
-        'page_title': 'Home',
-        'flights': flights
-    })
+
+    return render(request, 'flights/index.html', {'flights': flights})
 
 
 def flight(request, id):
-    if request.user.is_authenticated:
-        persons = Person.objects.filter(user=request.user.id)
-    else:
-        persons = []
     try:
         flight = Flight.objects.get(id=id)
     except:
         return redirect('/')
-
     return render(request, 'flights/show.html', {
         'page_title': f'Flight {id}',
-        'scripts': ['flight'],
         'flight_id': id,
         'dep_date': flight.departure_time.strftime("%A, %-m %B, %Y"),
         'dep_time': flight.departure_time.strftime("%H%Mhrs"),
