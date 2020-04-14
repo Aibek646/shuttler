@@ -4,8 +4,8 @@ from django.contrib.auth.models import User
 
 class Craft(models.Model):
     model = models.CharField(max_length=20)
-    serialNumber = models.CharField(max_length=10)
-    numberOfSeats = models.IntegerField(default=10)
+    serial_number = models.CharField(max_length=10)
+    seats = models.IntegerField(default=10)
 
     def __str__(self):
         return self.model
@@ -33,7 +33,9 @@ class Flight(models.Model):
 
 
 class Person(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.PROTECT)
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30)
     role = models.CharField(max_length=2, choices=(
         ('ST', 'Staff'),
         ('CR', 'Crew'),
@@ -47,7 +49,7 @@ class Person(models.Model):
     twitter_username = models.CharField(max_length=225, blank=True)
 
     def __str__(self):
-        return f'{self.user.first_name} {self.user.last_name}'
+        return f'{self.first_name} {self.last_name} --> {self.user}'
 
 
 class Manifest(models.Model):
