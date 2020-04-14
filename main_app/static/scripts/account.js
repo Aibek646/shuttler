@@ -1,9 +1,8 @@
 const csrfToken = Cookies.get('csrftoken');
 const getParams = new URLSearchParams(window.location.search);
 const redirect = getParams.get('redirect');
-console.log(redirect);
 
-const form = {
+const loginForm = {
   username: document.querySelector('#username'),
   userWarn: document.querySelector('#userWarn'),
   password: document.querySelector('#password'),
@@ -14,6 +13,10 @@ const form = {
   csrf: document.querySelector('[name="csrfmiddlewaretoken"]')
 }
 
+const display = {
+  fullName: document.querySelector('#full-name'),
+}
+
 const warnings = {
   none: '&nbsp;',
   user: 'You must enter a username',
@@ -21,39 +24,39 @@ const warnings = {
   auth: 'Invalid credentials entered',
 }
 
-if (form.login) {
-  form.login.addEventListener('click', login);
+if (loginForm.login) {
+  loginForm.login.addEventListener('click', login);
 }
-if (form.logout) {
-  form.logout.addEventListener('click', logout);
+if (loginForm.logout) {
+  loginForm.logout.addEventListener('click', logout);
 }
-if (form.username) {
-  form.username.focus();
+if (loginForm.username) {
+  loginForm.username.focus();
 }
 
 async function login(event) {
   event.preventDefault();
   let fail = false;
-  let username = form.username.value;
+  let username = loginForm.username.value;
   if (username.length === 0) {
-    form.userWarn.innerHTML = warnings.user;
-    form.username.focus();
+    loginForm.userWarn.innerHTML = warnings.user;
+    loginForm.username.focus();
     fail = true;
   }
   else {
-    form.userWarn.innerHTML = warnings.none;
+    loginForm.userWarn.innerHTML = warnings.none;
   }
 
-  let password = form.password.value;
+  let password = loginForm.password.value;
   if (password.length === 0) {
-    form.passWarn.innerHTML = warnings.pass;
+    loginForm.passWarn.innerHTML = warnings.pass;
     if (!fail) {
-      form.password.focus();
+      loginForm.password.focus();
       fail = true;
     }
   }
   else {
-    form.passWarn.innerHTML = warnings.none;
+    loginForm.passWarn.innerHTML = warnings.none;
   }
   if (!fail) {
     try {
@@ -64,13 +67,13 @@ async function login(event) {
             'X-CSRFToken': csrfToken
           },
           body: JSON.stringify({
-            username: form.username.value,
-            password: form.password.value,
+            username: loginForm.username.value,
+            password: loginForm.password.value,
           })
         }
       )
       let login = await response.json();
-      console.log(login.login);
+      console.log('Log In');
       if (login.login === true) {
         if (redirect) {
           window.location.href = redirect;
@@ -79,10 +82,10 @@ async function login(event) {
         window.location.href = `/account/`;
       }
       else {
-        form.userWarn.innerHTML = warnings.none;
-        form.passWarn.innerHTML = warnings.none;
-        form.loginFail.innerHTML = warnings.auth;
-        form.username.focus();
+        loginForm.userWarn.innerHTML = warnings.none;
+        loginForm.passWarn.innerHTML = warnings.none;
+        loginForm.loginFail.innerHTML = warnings.auth;
+        loginForm.username.focus();
       }
     }
     catch (err) {
@@ -93,7 +96,7 @@ async function login(event) {
 
 async function logout(event) {
   event.preventDefault();
-  console.log('Logout');
+  console.log('Log Out');
   try {
     let response = await fetch(
       '/logout/', {
@@ -108,5 +111,11 @@ async function logout(event) {
   }
   catch (err) {
     console.log(`Logout Error:`, err);
+  }
+}
+
+function onValidate() {
+  if (user) {
+    display.fullName.innerText = `${user.firstName} ${user.lastName}`
   }
 }

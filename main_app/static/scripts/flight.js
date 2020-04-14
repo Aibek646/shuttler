@@ -11,19 +11,18 @@ const FLIGHT_NUM = window.location.pathname.split('/')[2];
 
 let seats = 0;
 let passengers = [];
-let persons = [];
 let row = 0;
 
 function onValidate() {
   if (user) {
     elems.bookButton.classList.remove('d-none');
     elems.bookButton.addEventListener('click', removeBookButton);
-    elems.username.value = user;
   }
   else {
     elems.loginButton.classList.remove('d-none');
     elems.loginButton.addEventListener('click', login);
   }
+  buildPage().catch(console.log);
 }
 
 function login() {
@@ -43,14 +42,9 @@ async function getSeats() {
   seats = seats.remaining;
 }
 
-async function getPersons() {
-  let data = await fetch('/persons/');
-  persons = await data.json();
-  persons = Object.values(persons);
+async function initPersons() {
 
   let options = '';
-
-
   for (row = 0; row < passengers.length; row++) {
     elems.passengers.insertAdjacentHTML('beforeend', `
       <tr id="row-${row}">
@@ -96,7 +90,7 @@ async function getPersons() {
 
 async function buildPage() {
   await getSeats();
-  await getPersons();
+  await initPersons();
 }
 
 function addPassenger() {
@@ -130,5 +124,3 @@ function removePassenger(removeRow) {
   console.log(removeRow);
   removeRow.remove();
 }
-
-buildPage().catch(console.log);

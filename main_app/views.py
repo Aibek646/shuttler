@@ -41,7 +41,7 @@ def flight(request, id):
 def seats(request, id):
     flight = Flight.objects.get(id=id)
     manifest = Manifest.objects.filter(flight=id)
-    total = flight.craft.seats - len(manifest)
+    remaining = flight.craft.seats - len(manifest)
 
     passengers = manifest.filter(user=request.user.id)
     passengers = passengers.values()
@@ -50,8 +50,8 @@ def seats(request, id):
         passenger_dict[passenger['id']] = passenger
 
     return JsonResponse({
-        'total': total,
-        'remaining': flight.craft.seats,
+        'total': flight.craft.seats,
+        'remaining': remaining,
         'passengers': passenger_dict,
     })
 
@@ -158,13 +158,12 @@ def about(request):
 def persons(request):
     if request.user.is_authenticated:
         persons = Person.objects.filter(user=request.user.id)
+        persons = persons.values()
+        person_dict = {}
+        for person in persons:
+            person_dict[person['id']] = person
     else:
         persons = []
-
-    persons = persons.values()
-    person_dict = {}
-    for person in persons:
-        person_dict[person['id']] = person
 
     return JsonResponse(person_dict)
 
